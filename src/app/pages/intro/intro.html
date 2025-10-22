@@ -1,0 +1,110 @@
+<div class="intro-container">
+  <!-- Background Elements -->
+  <div class="background-elements">
+    <div class="floating-particle particle-1"></div>
+    <div class="floating-particle particle-2"></div>
+    <div class="floating-particle particle-3"></div>
+    <div class="floating-particle particle-4"></div>
+    <div class="neural-network"></div>
+  </div>
+
+  <!-- Skip Button -->
+  <button class="skip-btn" (click)="skipIntro()">
+    Skip Intro
+  </button>
+
+  <!-- Main Content -->
+  <div class="intro-content" [class.completed]="isCompleted">
+
+    <!-- Step Content -->
+    <div *ngIf="!isCompleted && currentStep < totalSteps" class="step-container">
+      <div class="step-header">
+        <div class="step-progress">
+          <div class="progress-track">
+            <div
+              class="progress-fill"
+              [style.width.%]="progress"
+            ></div>
+          </div>
+          <div class="step-counter">
+            Step {{ currentStep + 1 }} of {{ totalSteps }}
+          </div>
+        </div>
+      </div>
+
+      <div class="step-content" [class]="currentStepData.animation">
+        <div class="step-icon">
+          {{ currentStepData.icon }}
+        </div>
+
+        <h1 class="step-title">
+          {{ currentStepData.title }}
+        </h1>
+
+        <p class="step-description">
+          {{ currentStepData.description }}
+        </p>
+      </div>
+    </div>
+
+    <!-- Completion Screen -->
+    <div *ngIf="isCompleted" class="completion-screen">
+      <div class="completion-content">
+        <div class="completion-animation">
+          <div class="orbital-system">
+            <div class="central-core"></div>
+            <div class="orbit orbit-1">
+              <div class="satellite sat-1"></div>
+            </div>
+            <div class="orbit orbit-2">
+              <div class="satellite sat-2"></div>
+            </div>
+            <div class="orbit orbit-3">
+              <div class="satellite sat-3"></div>
+            </div>
+          </div>
+        </div>
+
+        <h1 class="completion-title">
+          Welcome to FBT AI
+        </h1>
+
+        <p class="completion-description">
+          Your AI journey begins now. Get ready for an exceptional conversation experience.
+        </p>
+
+        <div class="completion-stats">
+          <div class="stat-item">
+            <div class="stat-value">100%</div>
+            <div class="stat-label">AI Powered</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">∞</div>
+            <div class="stat-label">Possibilities</div>
+          </div>
+          <div class="stat-item">
+            <div class="stat-value">0ms</div>
+            <div class="stat-label">Response Time</div>
+          </div>
+        </div>
+
+        <div class="redirect-message">
+          <div class="loading-dots">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          Redirecting to chat interface...
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <div class="intro-footer">
+    <div class="footer-brand">
+      <span class="brand-glow">FBT AI</span>
+      <span class="footer-tagline">Future Intelligence</span>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,243 @@
+<div class="chat-container">
+  <!-- Sidebar -->
+  <div class="sidebar" [class.collapsed]="!isSidebarOpen">
+    <!-- Sidebar Header -->
+    <div class="sidebar-header">
+      <div class="sidebar-brand">
+        <div class="brand-logo">FBT</div>
+        <span class="brand-text">FBT AI</span>
+      </div>
+      <button class="sidebar-toggle" (click)="toggleSidebar()">
+        {{ isSidebarOpen ? '◀' : '▶' }}
+      </button>
+    </div>
+
+    <!-- New Chat Button -->
+    <button class="new-chat-btn" (click)="createNewSession()">
+      <span class="btn-icon">+</span>
+      <span class="btn-text">New Chat</span>
+    </button>
+
+    <!-- Chat History -->
+    <div class="chat-history">
+      <h3 class="history-title">Conversations</h3>
+      <div class="sessions-list">
+        <div
+          *ngFor="let session of chatSessions"
+          class="session-item"
+          [class.active]="currentSession?._id === session._id"
+          (click)="selectSession(session)"
+        >
+          <div class="session-icon">💬</div>
+          <div class="session-info">
+            <div class="session-title">{{ session.title }}</div>
+            <div class="session-preview">
+              {{ getSessionPreview(session) }}
+            </div>
+          </div>
+          <button
+            class="delete-session-btn"
+            (click)="deleteSession(session, $event)"
+            title="Delete conversation"
+          >
+            🗑️
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- User Profile -->
+    <div class="user-profile">
+      <div class="profile-avatar">
+        {{ (user | async)?.username?.charAt(0)?.toUpperCase() || 'U' }}
+      </div>
+      <div class="profile-info">
+        <div class="profile-name">{{ (user | async)?.username || 'User' }}</div>
+        <div class="profile-status">Online</div>
+      </div>
+      <button class="logout-btn" (click)="logout()" title="Logout">
+        🚪
+      </button>
+    </div>
+  </div>
+
+  <!-- Main Chat Area -->
+  <div class="chat-main">
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <div class="header-left">
+        <button class="menu-toggle" (click)="toggleSidebar()">
+          ☰
+        </button>
+        <div class="ai-info">
+          <div class="ai-avatar">🤖</div>
+          <div class="ai-details">
+            <div class="ai-name">FBT AI</div>
+            <div class="ai-status">
+              <span class="status-dot"></span>
+              Online
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="header-actions">
+        <button class="header-btn" title="Clear Chat" (click)="clearCurrentChat()" [disabled]="!currentSession">🗑️</button>
+        <button class="header-btn" title="Settings" (click)="openSettings()">⚙️</button>
+      </div>
+    </div>
+
+    <!-- Messages Container -->
+    <div class="messages-container" #messagesContainer>
+      <!-- Welcome Message -->
+      <div *ngIf="!currentSession || !currentSession.messages || currentSession.messages.length === 0" class="welcome-message">
+        <div class="welcome-content">
+          <div class="welcome-avatar">🤖</div>
+          <h1 class="welcome-title">Hello! I'm FBT AI</h1>
+          <p class="welcome-text">
+            Your intelligent assistant powered by advanced AI. I can help you with various tasks,
+            answer questions, and engage in meaningful conversations in both Arabic and English.
+          </p>
+
+          <!-- Quick Prompts -->
+          <div class="quick-prompts">
+            <h3>Try asking me:</h3>
+            <div class="prompts-grid">
+              <div
+                *ngFor="let prompt of quickPrompts"
+                class="prompt-card"
+                (click)="sendQuickPrompt(prompt.prompt)"
+              >
+                <div class="prompt-icon">{{ prompt.icon }}</div>
+                <div class="prompt-content">
+                  <div class="prompt-title">{{ prompt.title }}</div>
+                  <div class="prompt-text">{{ prompt.prompt }}</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Chat Messages -->
+      <div *ngIf="currentSession && currentSession.messages && currentSession.messages.length > 0" class="messages-list">
+        <div
+          *ngFor="let message of currentSession.messages"
+          class="message"
+          [class.user-message]="message.sender === 'user'"
+          [class.ai-message]="message.sender === 'ai'"
+        >
+          <div class="message-avatar">
+            {{ message.sender === 'user' ? '👤' : '🤖' }}
+          </div>
+          <div class="message-content">
+            <div class="message-text">{{ message.content }}</div>
+            <div class="message-time">
+              {{ formatTime(message.timestamp) }}
+              <span
+                *ngIf="message.sentiment"
+                class="sentiment-indicator"
+                [class]="'sentiment-' + message.sentiment"
+              >
+                {{ message.sentiment === 'positive' ? '😊' :
+                   message.sentiment === 'negative' ? '😔' : '😐' }}
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Typing Indicator -->
+        <div *ngIf="isSending" class="message ai-message typing-indicator">
+          <div class="message-avatar">🤖</div>
+          <div class="message-content">
+            <div class="typing-dots">
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area">
+      <div class="input-container">
+        <textarea
+          #messageInput
+          [(ngModel)]="newMessage"
+          (keydown.enter)="$event.preventDefault(); sendMessage()"
+          placeholder="Type your message here... (Press Enter to send)"
+          class="message-input"
+          rows="1"
+          [disabled]="isSending || !currentSession"
+        ></textarea>
+        <button
+          class="send-btn"
+          (click)="sendMessage()"
+          [disabled]="!newMessage.trim() || isSending || !currentSession"
+        >
+          <span *ngIf="!isSending" class="send-icon">🚀</span>
+          <div *ngIf="isSending" class="loading-spinner"></div>
+        </button>
+      </div>
+
+      <!-- Input Footer -->
+      <div class="input-footer">
+        <div class="footer-notes">
+          FBT AI can understand both Arabic and English. Feel free to chat naturally!
+        </div>
+        <div class="footer-actions">
+          <button class="footer-btn" title="Attach File" [disabled]="!currentSession">📎</button>
+          <button class="footer-btn" title="Voice Message" [disabled]="!currentSession">🎤</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Settings Modal -->
+  <div *ngIf="showSettingsModal" class="modal-overlay" (click)="closeSettings()">
+    <div class="modal-content" (click)="$event.stopPropagation()">
+      <div class="modal-header">
+        <h2>Settings</h2>
+        <button class="modal-close" (click)="closeSettings()">×</button>
+      </div>
+      <div class="modal-body">
+        <div class="setting-group">
+          <label>Language Preference</label>
+          <select [(ngModel)]="settings.language">
+            <option value="both">Both (Arabic & English)</option>
+            <option value="ar">Arabic Only</option>
+            <option value="en">English Only</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label>Theme</label>
+          <select [(ngModel)]="settings.theme">
+            <option value="future">Future Dark</option>
+            <option value="light">Light Mode</option>
+            <option value="blue">Blue Theme</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label>Font Size</label>
+          <select [(ngModel)]="settings.fontSize">
+            <option value="small">Small</option>
+            <option value="medium">Medium</option>
+            <option value="large">Large</option>
+          </select>
+        </div>
+
+        <div class="setting-group">
+          <label>
+            <input type="checkbox" [(ngModel)]="settings.autoSave"> Auto-save conversations
+          </label>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn-primary" (click)="closeSettings()">Save Settings</button>
+      </div>
+    </div>
+  </div>
+</div>

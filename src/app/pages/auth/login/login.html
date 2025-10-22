@@ -1,0 +1,123 @@
+<div class="login-container">
+  <!-- Background Elements -->
+  <div class="background-elements">
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="auth-nav">
+    <div class="nav-brand">
+      <span class="brand-glow" routerLink="/">FBT AI</span>
+    </div>
+    <div class="nav-links">
+      <span>Don't have an account?</span>
+      <button class="text-btn" routerLink="/register">Sign Up</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="login-content">
+    <div class="login-card">
+      <!-- Header -->
+      <div class="card-header">
+        <div class="header-icon">
+          <div class="icon-hologram"></div>
+        </div>
+        <h1 class="card-title">Welcome Back</h1>
+        <p class="card-subtitle">Sign in to continue your AI journey</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        <div class="error-icon">⚠️</div>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Login Form -->
+      <form (ngSubmit)="onSubmit()" class="login-form">
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <div class="input-container">
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="loginData.email"
+              name="email"
+              class="form-input"
+              placeholder="Enter your email"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-container">
+            <input
+              type="password"
+              id="password"
+              [(ngModel)]="loginData.password"
+              name="password"
+              class="form-input"
+              placeholder="Enter your password"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading" class="btn-content">
+            <span class="btn-text">Sign In</span>
+            <span class="btn-arrow">→</span>
+          </span>
+          <span *ngIf="isLoading" class="btn-loading">
+            <div class="loading-spinner"></div>
+            Signing In...
+          </span>
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="card-footer">
+        <a href="#" class="forgot-link">Forgot your password?</a>
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div class="preview-content">
+        <h3 class="preview-title">Continue Your Journey</h3>
+        <div class="preview-features">
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Access Your Chat History</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Personalized AI Experience</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Advanced AI Features</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Secure & Private</span>
+          </div>
+        </div>
+        <div class="preview-hologram">
+          <div class="hologram-sphere"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,115 @@
+<div class="landing-container">
+  <!-- Loading Screen -->
+  <div *ngIf="!showContent" class="loading-screen">
+    <div class="future-loader">
+      <div class="hologram-circle"></div>
+      <div class="loading-text">
+        <span class="future-text">FBT AI</span>
+        <div class="progress-bar">
+          <div class="progress-fill" [style.width.%]="loadingProgress"></div>
+        </div>
+        <p class="loading-subtext">Initializing Future Intelligence...</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div *ngIf="showContent" class="main-content">
+    <!-- Navigation -->
+    <nav class="future-nav">
+      <div class="nav-brand">
+        <span class="brand-glow">FBT AI</span>
+      </div>
+      <div class="nav-actions">
+        <button class="nav-btn" routerLink="/login">Login</button>
+        <button class="nav-btn primary" routerLink="/register">Get Started</button>
+      </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero-section">
+      <div class="hero-background">
+        <div class="floating-shapes">
+          <div class="shape shape-1"></div>
+          <div class="shape shape-2"></div>
+          <div class="shape shape-3"></div>
+        </div>
+      </div>
+
+      <div class="hero-content">
+        <h1 class="hero-title">
+          <span class="title-gradient">Welcome to the Future</span>
+          <span class="title-sub">of Artificial Intelligence</span>
+        </h1>
+
+        <p class="hero-description">
+          Experience the next generation of AI conversation with FBT AI.
+          Advanced multilingual understanding, personalized responses,
+          and futuristic design that adapts to your personality.
+        </p>
+
+        <div class="hero-actions">
+          <button class="cta-btn primary" (click)="navigateToAuth()">
+            <span class="btn-glow">Start Journey</span>
+          </button>
+          <button class="cta-btn secondary">
+            <span>Watch Demo</span>
+          </button>
+        </div>
+
+        <div class="hero-features">
+          <div class="feature-card">
+            <div class="feature-icon">🤖</div>
+            <h3>Smart AI</h3>
+            <p>Advanced multilingual understanding</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🚀</div>
+            <h3>Fast & Powerful</h3>
+            <p>Lightning-fast responses</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Secure</h3>
+            <p>Your data protected</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features-section">
+      <div class="section-header">
+        <h2>Why Choose FBT AI?</h2>
+        <p>Experience the difference of next-generation AI technology</p>
+      </div>
+
+      <div class="features-grid">
+        <div class="feature-item">
+          <div class="feature-number">01</div>
+          <h3>Personality Analysis</h3>
+          <p>Our AI understands your unique personality and adapts its responses accordingly</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">02</div>
+          <h3>Multilingual Support</h3>
+          <p>Fluently communicate in both Arabic and English with natural understanding</p>
+        </div>
+        <div class="feature-item">
+          <div class="feature-number">03</div>
+          <h3>Chat History</h3>
+          <p>Access all your previous conversations and continue where you left off</p>
+        </div>
+      </div>
+    </section>
+    <!-- foorer -->
+    <footer class="future-footer">
+      <div class="footer-content">
+        <div class="footer-brand">
+          
+          <p>© 2025 FBT AI. All rights reserved.</p>
+        </div>
+
+      </div>
+    </footer>
+</div>
