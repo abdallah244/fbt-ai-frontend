@@ -1,0 +1,159 @@
+<div class="register-container">
+  <!-- Background Elements -->
+  <div class="background-elements">
+    <div class="floating-orb orb-1"></div>
+    <div class="floating-orb orb-2"></div>
+    <div class="floating-orb orb-3"></div>
+    <div class="grid-lines"></div>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="auth-nav">
+    <div class="nav-brand">
+      <span class="brand-glow" routerLink="/">FBT AI</span>
+    </div>
+    <div class="nav-links">
+      <span>Already have an account?</span>
+      <button class="text-btn" routerLink="/login">Sign In</button>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="register-content">
+    <div class="register-card">
+      <!-- Header -->
+      <div class="card-header">
+        <div class="header-icon">
+          <div class="icon-hologram"></div>
+        </div>
+        <h1 class="card-title">Create Account</h1>
+        <p class="card-subtitle">Join the future of AI conversation</p>
+      </div>
+
+      <!-- Error Message -->
+      <div *ngIf="errorMessage" class="error-message">
+        <div class="error-icon">⚠️</div>
+        {{ errorMessage }}
+      </div>
+
+      <!-- Registration Form -->
+      <form (ngSubmit)="onSubmit()" class="register-form">
+        <div class="form-group">
+          <label for="username" class="form-label">Username</label>
+          <div class="input-container">
+            <input
+              type="text"
+              id="username"
+              [(ngModel)]="userData.username"
+              name="username"
+              class="form-input"
+              placeholder="Enter your username"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email" class="form-label">Email Address</label>
+          <div class="input-container">
+            <input
+              type="email"
+              id="email"
+              [(ngModel)]="userData.email"
+              name="email"
+              class="form-input"
+              placeholder="Enter your email"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password" class="form-label">Password</label>
+          <div class="input-container">
+            <input
+              type="password"
+              id="password"
+              [(ngModel)]="userData.password"
+              name="password"
+              class="form-input"
+              placeholder="Create a password"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword" class="form-label">Confirm Password</label>
+          <div class="input-container">
+            <input
+              type="password"
+              id="confirmPassword"
+              [(ngModel)]="userData.confirmPassword"
+              name="confirmPassword"
+              class="form-input"
+              placeholder="Confirm your password"
+              required
+            >
+            <div class="input-glow"></div>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="isLoading"
+        >
+          <span *ngIf="!isLoading" class="btn-content">
+            <span class="btn-text">Create Account</span>
+            <span class="btn-arrow">→</span>
+          </span>
+          <span *ngIf="isLoading" class="btn-loading">
+            <div class="loading-spinner"></div>
+            Creating Account...
+          </span>
+        </button>
+      </form>
+
+      <!-- Footer -->
+      <div class="card-footer">
+        <p class="footer-text">
+          By creating an account, you agree to our
+          <a href="#" class="footer-link">Terms of Service</a> and
+          <a href="#" class="footer-link">Privacy Policy</a>
+        </p>
+      </div>
+    </div>
+
+    <!-- Preview Panel -->
+    <div class="preview-panel">
+      <div class="preview-content">
+        <h3 class="preview-title">Welcome to FBT AI</h3>
+        <div class="preview-features">
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Advanced AI Conversations</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Multilingual Support</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Personalized Experience</span>
+          </div>
+          <div class="preview-feature">
+            <div class="feature-bullet"></div>
+            <span>Secure & Private</span>
+          </div>
+        </div>
+        <div class="preview-hologram">
+          <div class="hologram-sphere"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
